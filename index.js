@@ -39,10 +39,13 @@ async function handleEvent(event) {
     return body
   });
   // create a echoing text message
-  var data = JSON.parse(result);
+  console.log(result)
+  // var data = JSON.parse(result);
+  //
+  // var reply = ` ${data.text[0]} | ${data.text[0].data.text[1]}`
 
-  var reply = ` ${data.text[0]} | ${data.text[0].data.text[1]}`
-  const echo = { type: 'text', text: reply };
+  var reply = "test"
+  // const echo = { type: 'text', text: reply };
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);
