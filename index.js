@@ -32,7 +32,7 @@ async function handleEvent(event) {
   }
 
 
-  var text = split(event.message.text.toUpperCase(), ' ');
+  var text = event.message.text.toUpperCase().split(' ');
 
 
   var result = await request(Config.api + '/data/pricemulti?fsyms='+text[0]+'&tsyms='+text[1],(error, response, body) => {
@@ -46,11 +46,7 @@ async function handleEvent(event) {
   return client.replyMessage(event.replyToken, echo);
 }
 
-function requestCrypto(value){
-  request('http://www.google.com', function (error, response, body) {
-    console.log(response)
-  });
-}
+
 // listen on port
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
