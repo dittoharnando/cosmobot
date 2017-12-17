@@ -3,7 +3,8 @@
 const line = require('@line/bot-sdk');
 const express = require('express');
 const Config = require('./config.json')
-const request = require('request')
+const rp = require('request-promise')
+const Humanize = require('humanize-plus')
 
 // create LINE SDK config from env variables
 const config = {
@@ -32,20 +33,22 @@ async function handleEvent(event) {
   }
 
 
-  var text = event.message.text.toUpperCase().split(' ');
-
-
-  var result = await request(Config.api + '/data/pricemulti?fsyms='+text[0]+'&tsyms='+text[1],(error, response, body) => {
-    return body
+  var params = event.message.text.toUpperCase().split(' ');
+  var opts = { method: "GET",uri: Config.api + '/data/pricemulti?fsyms='+params[0]+'&tsyms=IDR,USD,EUR',resolveWithFullResponse: true}
+  var result = await rp(opts).then(result=> {
+    return result.body;
   });
-  // create a echoing text message
-  console.log(result)
-  // var data = JSON.parse(result);
-  //
-  // var reply = ` ${data.text[0]} | ${data.text[0].data.text[1]}`
+  var text = JSON.parse(result)
 
-  var reply = "test"
-  // const echo = { type: 'text', text: reply };
+  var reply = `
+  ${params[0]} Now
+  IDR : Rp. ${Humanize.formatNumber(text[params[0]].IDR,0)}
+  USD : USD ${Humanize.formatNumber(text[params[0]].USD,0)}
+  EUR : EUR ${Humanize.formatNumber(text[params[0]].EUR,0)}
+  `
+
+
+  const echo = { type: 'text', text: reply };
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);
