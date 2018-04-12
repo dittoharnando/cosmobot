@@ -61,10 +61,16 @@ app.listen(port, () => {
   console.log(`listening on ${port}`);
 });
 
+// sample API
+const message = {
+  type: 'text',
+  text: 'Hello World!'
+};
 
-var builder = require('botbuilder');
-
-var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector, function (session) {
-    session.send("You said: %s", session.message.text);
-});
+client.replyMessage('<replyToken>', message)
+  .then(() => {
+    ...
+  })
+  .catch((err) => {
+    // error handling
+  });
