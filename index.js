@@ -1,8 +1,17 @@
 const line = require('@line/bot-sdk');
+const express = require('express');
+const Config = require('./config.json')
+const rp = require('request-promise')
+const Humanize = require('humanize-plus')
 
-const client = new line.Client({
-  channelAccessToken: '26D2SnIthQ4cAFOCOXYZYCIbKIircrAmcx3vzw5lgUgRRURoSuy4XNrCivct7HQ65XPEgCTsjWSlWzeVusIxbIdsKybwC1BkEiOlS711irAed3HyFhxkEdnL4Kie/2FUWMtIOiXlwqNQTkYLMTuZkAdB04t89/1O/w1cDnyilFU='
-});
+// create LINE SDK config from env variables
+const config = {
+  channelAccessToken: Config.accessToken,
+  channelSecret: Config.secretKey
+};
+
+// create LINE SDK client
+const client = new line.Client(config);
 
 const message = {
   type: 'text',
