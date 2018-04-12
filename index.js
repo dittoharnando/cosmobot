@@ -1,8 +1,5 @@
 const line = require('@line/bot-sdk');
-const express = require('express');
 const Config = require('./config.json')
-const rp = require('request-promise')
-const Humanize = require('humanize-plus')
 
 // create LINE SDK config from env variables
 const config = {
